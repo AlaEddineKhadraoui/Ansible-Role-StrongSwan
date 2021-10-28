@@ -1,2 +1,10 @@
 ---
 # tasks file for strongswan-initiator
+#
+- name: configure strongswan for centos
+  include_tasks: centos.yml
+  when: ansible_distribution == "CentOS"
+
+- name: configure strongswan for debian
+  include_tasks: debian.yml
+  when:  ansible_distribution == "debian" or ansible_distribution == "ubuntu" 
