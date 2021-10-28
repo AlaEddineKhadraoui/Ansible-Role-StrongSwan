@@ -1,0 +1,8 @@
+---
+# handlers file for strongswan-initiator
+
+- name: save change
+  shell: sysctl -p
+
+- name: reload firewalld
+  shell: firewall-cmd --reload  

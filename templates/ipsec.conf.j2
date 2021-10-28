@@ -1,0 +1,24 @@
+config setup
+    charondebug="ike 1, knl 1, cfg 0"
+    uniqueids=no
+
+conn ikev2-vpn
+    auto=add
+    compress=no
+    type=tunnel
+    keyexchange=ikev2
+    fragmentation=yes
+    forceencaps=yes
+    dpdaction=clear
+    dpddelay=300s
+    rekey=no
+    left=%any
+    leftid={{server_domain_or_IP}}
+    leftsubnet=0.0.0.0/0
+    conn ikev2-vpn
+    right=%any
+    rightid=%any
+    rightauth=secret
+    rightsourceip={{network_ip}}
+    rightdns=8.8.8.8,8.8.4.4
+    rightsendcert=never

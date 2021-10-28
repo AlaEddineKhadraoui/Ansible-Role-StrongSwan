@@ -1,0 +1,64 @@
+
+- name: install epel-release
+  yum:
+    name: epel-release
+    state: present
+- name: Enable IP packet forwarding in the kernel options
+  copy:
+    content: 'net.ipv4.ip_forward=1'
+    dest: /etc/sysctl.conf
+  notify: save change    
+
+- name: install strongswan
+  yum:
+    name: "{{centos_package}}"
+    state: present
+
+- name: make backup for ipsec config file
+  copy:
+    src: /etc/ipsec.conf
+    dest: /etc/ipsec.conf.old
+
+- name: make backup for ipsec secret file
+  copy:
+    src: /etc/ipsec.secrets
+    dest: /etc/ipsec.secrets.old
+
+- name: edit ipsec config file
+  templates:
+    src: ipsec.conf.j2
+    dest: /etc/ipsec.conf
+
+- name: edit ipsec secret file
+  template:
+    src: ipsec.secrets.j2
+    dest: /etc/ipsec.secrets
+
+- name: start and enable stronswan service
+  service:
+    name: "{{centos_service}}"
+    state: started
+    enabled: yes
+
+- name: open ports on firewall
+  firwalld:
+    port: "{{item}}"
+    permanent: yes
+    state: enabled
+  loop: "{{ports}}"
+  notify: reload firewalld
+
+- name: allow Nat packet forwarding ip masquerade
+  firewalld:
+    masquerade: yes
+    state: enabled
+    permanent: yes
+  notify: reload firewalld
+     
+
+
+
+
+      
+
+

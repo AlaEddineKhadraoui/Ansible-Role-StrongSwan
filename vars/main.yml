@@ -1,0 +1,24 @@
+---
+# vars file for strongswan-initiator
+
+debian_package:
+
+  - strongswan 
+  - strongswan-pki 
+  - libcharon-extra-plugins 
+  - libcharon-extauth-plugins 
+  - libstrongswan-extra-plugins
+
+debian_service: strongswan-starter
+
+centos_package: strongswan
+
+centos_service: strongswan
+
+ports:
+  
+  - 80/tcp
+  - 500/udp
+  - 4500/udp
+
+  
