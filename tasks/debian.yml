@@ -16,6 +16,18 @@
       net.ipv4.conf.all.send_redirects = 0
   notify: save change
 
+
+- name: make backup for ipsec config file
+  copy:
+    src: /etc/ipsec.conf
+    dest: /etc/ipsec.conf.old
+
+- name: make backup for ipsec secret file
+  copy:
+    src: /etc/ipsec.secrets
+    dest: /etc/ipsec.secrets.old
+
+
 - name: edit ipsec config file
   template:
     src: templates/ipsec.conf.j2
